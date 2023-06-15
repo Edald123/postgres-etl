@@ -1,0 +1,26 @@
+services:
+  app:
+    build: ""
+    container_name: "python-app"
+    tty: true
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST_}
+      - POSTGRES_PORT=${POSTGRES_PORT_}
+      - POSTGRES_DB=${POSTGRES_DB_}
+      - POSTGRES_USER=${POSTGRES_USER_}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_}
+    depends_on:
+      - postgres
+
+  postgres:
+    build: "sql"
+    container_name: "database"
+    restart: always
+    tty: true
+    command: -p ${POSTGRES_PORT_}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB_}
+      - POSTGRES_USER=${POSTGRES_USER_}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_}
+    ports:
+      - ${POSTGRES_PORT_}:${POSTGRES_PORT_}
